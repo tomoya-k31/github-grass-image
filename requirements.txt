@@ -1,5 +1,6 @@
 requests==2.25.1
 CairoSVG==2.5.1
 cryptography==3.4.6
+-e git://github.com/twisted/twisted.git@twisted-17.9.0#egg=twisted
 scrapy==2.4.1
 lxml==4.6.2
