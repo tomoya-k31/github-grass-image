@@ -20,5 +20,5 @@ jobs:
       - name: Check outputs
         run: |
           echo "${{ steps.github_grass.outputs.githubGrassOutputImagePath }}"
-          ls -la /github/workspace/
-          ls -la /github/workspace/dist/
+          ls -la
+          ls -la out/

@@ -8,7 +8,7 @@ inputs:
   imageOutputDir:
     description: "Directory of the host OS where the image will be output (dependency bind mounts)"
     required: false
-    default: ${{ github.workspace }}/dist
+    default: ${{ github.workspace }}/out
 outputs:
   githubGrassOutputImagePath:
     description: "Output image paths"
