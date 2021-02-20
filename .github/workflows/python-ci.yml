@@ -1,0 +1,58 @@
+name: Python CI
+
+on:
+  pull_request:
+    # when pull request created or push
+    types: [opened, synchronize]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Cache pip
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip # for Ubuntu
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}-${{ hashFiles('requirements-test.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          ${{ runner.os }}-
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f requirements-test.txt ]; then pip install -r requirements-test.txt; fi
+    - name: Sort all imports
+      run: |
+        isort . --check-only --diff || true
+        isort .
+    - name: Fix Lint
+      run: |
+        yapf --recursive --diff *.py
+        yapf --recursive --in-place *.py
+    - name: Commit & Push (if diff exists.)
+      run: |
+        if ! git diff --exit-code --quiet; then
+          git add -N .
+          git config user.name tomoya-k31
+          git config user.email chacogre@gmail.com
+          git add .
+          git commit -m "fix lint"
+          git push
+        fi
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --statistics
+    - name: Lint with Mypy
+      run: |
+        mypy .
