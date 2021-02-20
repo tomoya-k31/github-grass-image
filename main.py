@@ -82,7 +82,7 @@ def main() -> None:
         cairosvg.svg2png(bytestring=svg_bytes.decode('utf-8'), write_to=local_output_path)
 
         # output paths for docker volumes
-        output_dir = os.getenv('IMAGE_OUTPUT_DIR', './out')
+        output_dir = os.getenv('INPUT_IMAGEOUTPUTDIR', './out')
         res_output_path = f'{output_dir}/{github_account}.png'
         res_output_paths.append(res_output_path)
 
