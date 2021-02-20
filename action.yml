@@ -15,3 +15,7 @@ outputs:
 runs:
   using: "docker"
   image: "Dockerfile"
+
+branding:
+  icon: grid
+  color: white
