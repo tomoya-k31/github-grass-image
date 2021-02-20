@@ -2,10 +2,10 @@ name: "Github grass image"
 description: "Get the grass (activity graph) image in github"
 author: "tomoya-k31"
 inputs:
-  github-accounts:
+  githubAccounts:
     description: "Comma-separated list of github accounts"
     required: true
-  image-output-dir:
+  imageOutputDir:
     description: "Directory of the host OS where the image will be output (dependency bind mounts)"
     required: false
 outputs:
