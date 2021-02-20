@@ -17,7 +17,6 @@ jobs:
         id: github_grass
         with:
           githubAccounts: 'tomoya-k31'
-          imageOutputDir: '/out/dist'
       - name: Check outputs
         run: |
           echo "${{ steps.github_grass.outputs.githubGrassOutputImagePath }}"
