@@ -8,7 +8,7 @@ from scrapy.http import HtmlResponse
 
 
 def main() -> None:
-    input_github_accounts = os.getenv('GITHUB_ACCOUNTS')
+    input_github_accounts = os.getenv('INPUT_GITHUBACCOUNTS')
     if not input_github_accounts:
         sys.exit('inputs:github_accounts is required.')
 
