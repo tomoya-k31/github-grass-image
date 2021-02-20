@@ -12,10 +12,6 @@ def main() -> None:
     if not input_github_accounts:
         sys.exit('inputs:github_accounts is required.')
 
-    output_dir = os.getenv('IMAGE_OUTPUT_DIR', '.')
-    if not output_dir:
-        sys.exit('inputs:image_output_dir is required.')
-
     github_accounts = [x.strip() for x in input_github_accounts.split(',') if x.strip()]
     res_output_paths = []
 
@@ -82,11 +78,12 @@ def main() -> None:
         svg_bytes = et.tostring(svg_tree)
 
         # output png
-        local_output_path = f'./out/output-{github_account}.png'
+        local_output_path = f'./out/{github_account}.png'
         cairosvg.svg2png(bytestring=svg_bytes.decode('utf-8'), write_to=local_output_path)
 
         # output paths for docker volumes
-        res_output_path = f'{output_dir}/output-{github_account}.png'
+        output_dir = os.getenv('IMAGE_OUTPUT_DIR', './out')
+        res_output_path = f'{output_dir}/{github_account}.png'
         res_output_paths.append(res_output_path)
 
     # [github actions] outputs

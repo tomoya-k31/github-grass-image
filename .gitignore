@@ -138,4 +138,4 @@ dmypy.json
 cython_debug/
 
 # generated image file
-out/output-*.png
+out/*.png
