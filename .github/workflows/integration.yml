@@ -1,0 +1,23 @@
+name: integration test
+
+on:
+  workflow_dispatch:
+    braches: [main]
+  schedule:
+    - cron: '0 19 * * *'
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run github action
+        uses: ./
+        id: github_grass
+        with:
+          github-accounts: 'tomoya-k31'
+          image-output-dir: '/out/dist'
+      - name: Check outputs
+        run: |
+          echo "${{ steps.github_grass.outputs.githubGrassOutputImagePath }}"
