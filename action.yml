@@ -5,10 +5,6 @@ inputs:
   githubAccounts:
     description: "Comma-separated list of github accounts"
     required: true
-  imageOutputDir:
-    description: "Directory of the host OS where the image will be output (dependency bind mounts)"
-    required: false
-    default: ${{ github.workspace }}/out
 outputs:
   githubGrassOutputImagePath:
     description: "Output image paths"

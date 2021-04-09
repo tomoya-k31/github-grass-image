@@ -78,13 +78,11 @@ def main() -> None:
         svg_bytes = et.tostring(svg_tree)
 
         # output png
-        local_output_path = f'./out/{github_account}.png'
-        cairosvg.svg2png(bytestring=svg_bytes.decode('utf-8'), write_to=local_output_path)
+        output_path = f'./out/{github_account}.png'
+        cairosvg.svg2png(bytestring=svg_bytes.decode('utf-8'), write_to=output_path)
 
         # output paths for docker volumes
-        output_dir = os.getenv('INPUT_IMAGEOUTPUTDIR', './out')
-        res_output_path = f'{output_dir}/{github_account}.png'
-        res_output_paths.append(res_output_path)
+        res_output_paths.append(output_path)
 
     # [github actions] outputs
     print(f'::set-output name=githubGrassOutputImagePath::{",".join(res_output_paths)}')

@@ -3,12 +3,12 @@ name: integration test
 on:
   workflow_dispatch:
     braches: [main]
-  schedule:
-    - cron: '0 19 * * *'
 
 jobs:
   integration:
     runs-on: ubuntu-latest
+    environment:
+      name: Integration
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -17,8 +17,13 @@ jobs:
         id: github_grass
         with:
           githubAccounts: 'tomoya-k31'
-      - name: Check outputs
+      - name: Upload images to slack
+        env:
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         run: |
-          echo "${{ steps.github_grass.outputs.githubGrassOutputImagePath }}"
-          ls -la
-          ls -la out/
+          for imgpath in $(echo "${{ steps.github_grass.outputs.githubGrassOutputImagePath }}" | sed "s/,/ /g")
+          do
+              echo "@$imgpath"
+              curl -F "file=@./$imgpath" -F "channels=$SLACK_CHANNEL" -H "Authorization: Bearer $SLACK_TOKEN" https://slack.com/api/files.upload
+          done
