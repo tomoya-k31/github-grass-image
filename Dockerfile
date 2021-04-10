@@ -15,5 +15,7 @@ RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt &&\
     mkdir -p /app/out
 
+RUN ls -la && pwd
+
 VOLUME /app/out
-ENTRYPOINT python3 main.py
+CMD ["python3", "main.py"]
