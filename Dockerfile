@@ -7,15 +7,19 @@ RUN apk add --no-cache \
     # for lxml
     gcc libc-dev libxml2-dev libxslt-dev libressl-dev\
     # for cryptography
-    gcc musl-dev python3-dev libffi-dev openssl-dev cargo
-
-ADD . /app
-WORKDIR /app
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt &&\
+    gcc musl-dev python3-dev libffi-dev openssl-dev cargo \
+    && \
+    # python
+    pip install --upgrade pip && \
     mkdir -p /app/out
 
-RUN ls -la && pwd
+COPY main.py /app
+COPY requirements.txt /app
 
+WORKDIR /app
 VOLUME /app/out
-CMD ["python3", "main.py"]
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+ENTRYPOINT python3
+CMD /app/main.py
